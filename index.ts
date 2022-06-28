@@ -2,7 +2,7 @@ function getRandomInt(max:number) {
   return Math.floor(Math.random() * max);
 }
 import { createLogger } from '@lvksh/logger';
-import chalk from 'chalk';
+const chalk = require('chalk')
 var config = require('./config.json');
 const log = createLogger(
   {
@@ -24,7 +24,7 @@ const log = createLogger(
 );
 
 const fs = require('fs');
-if (!fs.existsSync('config.json')) {
+if (fs.existsSync('config.json')) {
   log.ok("Config file exists.")
 }
 else {
@@ -61,6 +61,7 @@ client.on("messageCreate", (message:any) => {
 process.on('SIGINT', function() {
   log.info("Recieved kill signal...killing.");
   client.destroy();
+  process.exit(0);
 });
 
 // Uptime Kuma stuff

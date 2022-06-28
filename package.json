@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "dev": "ts-node .",
-    "production": "tsc && node dist/index.js"
+    "production": "tsc index.ts && node dist/index.js"
   },
   "dependencies": {
     "@discordjs/rest": "^0.5.0",
