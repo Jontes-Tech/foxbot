@@ -11,15 +11,26 @@ const log = createLogger(
           newLine: '| ',
           newLineEnd: '\\-',
       },
+      debug: chalk.magentaBright`[DEBUG]`,
       info: {
           label: chalk.cyan`[INFO]`,
           newLine: chalk.cyan`⮡`,
           newLineEnd: chalk.cyan`⮡`,
-      }
+      },
+      veryBigError: chalk.bgRed.white.bold`[ERROR]`
   },
   { padding: 'PREPEND' },
   console.log
 );
+
+const fs = require('fs');
+if (!fs.existsSync('config.json')) {
+  log.ok("Config file exists.")
+}
+else {
+  log.veryBigError("The config file does not exist. Please rename config.example.json to config.json and add your token.")
+  process.exit(1)
+}
 
 const { Client, Intents } = require("discord.js");
 const client = new Client({
@@ -27,7 +38,6 @@ const client = new Client({
 });
 
 client.on("ready", () => {
-  console.log()
   log.ok("Welcome to Foxbot")
   log.info("Running version 1.0.0")
   log.ok("Logged in as "+ client.user.tag)
@@ -52,5 +62,23 @@ process.on('SIGINT', function() {
   log.info("Recieved kill signal...killing.");
   client.destroy();
 });
+
+// Uptime Kuma stuff
+setInterval(function(){
+  const http = require("https");
+
+  const options = {
+    "method": "GET",
+    "hostname": "192.168.50.4",
+    "port": 3000,
+    "path": "/api/push/jhKmrbnqwv?=&status=up&msg=OK&ping=",
+  };
+  
+  const req = http.request(options, function () {
+    log.debug("Reported uptime to Uptime Kuma")
+  });
+  
+  req.end();
+},600000)
 
 client.login(config.discord_token);

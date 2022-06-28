@@ -5,7 +5,8 @@
   "license": "GPL-3-OR-LATER",
   "private": true,
   "scripts": {
-    "start": "ts-node ."
+    "dev": "ts-node .",
+    "production": "tsc && node dist/index.js"
   },
   "dependencies": {
     "@discordjs/rest": "^0.5.0",

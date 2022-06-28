@@ -4,7 +4,7 @@ To selfhost:
 * Clone project
 * Rename `config.example.json` to `config.json`.
 * Put your Discord Bot Token in `config.json`
-* Run `yarn && yarn run start`
+* Run `yarn && yarn run production`
 Voila.
 
 ### Legal stuff:
