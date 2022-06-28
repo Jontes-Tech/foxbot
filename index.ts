@@ -70,8 +70,7 @@ setInterval(function(){
 
   const options = {
     "method": "GET",
-    "hostname": "192.168.50.4",
-    "port": 3000,
+    "hostname": "uptime.jontes.page",
     "path": "/api/push/jhKmrbnqwv?=&status=up&msg=OK&ping=",
   };
   
