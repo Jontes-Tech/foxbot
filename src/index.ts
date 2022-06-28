@@ -26,12 +26,12 @@ const log = createLogger(
   console.log
 );
 
-if (fs.existsSync('config.json')) {
-  log.ok("Config file exists.")
-  var config = require('../config.json') as Record<string, unknown>
+if (fs.existsSync('configuration.json')) {
+  log.ok("Configuration file exists.")
+  var config = require('../configuration.json') as Record<string, unknown>
 }
 else {
-  log.veryBigError("The config file does not exist. Please rename config.example.json to config.json and add your token.")
+  log.veryBigError("The configuration file does not exist. Please rename config.example.json to config.json and add your token.")
   process.exit(1)
 }
 
@@ -41,7 +41,7 @@ const client = new Client({
 
 client.on("ready", () => {
   log.ok("Welcome to Foxbot")
-  log.info("Running version 1.0.0")
+  log.info("Running version 1.0.2")
   log.ok("Logged in as "+ client.user?.tag)
 });
 
