@@ -2,8 +2,11 @@ function getRandomInt(max:number) {
   return Math.floor(Math.random() * max);
 }
 import { createLogger } from '@lvksh/logger';
-const chalk = require('chalk')
-var config = require('./config.json');
+import axios from 'axios';
+import chalk from 'chalk';
+import { Client, Intents } from "discord.js";
+import fs from 'fs';
+
 const log = createLogger(
   {
       ok: {
@@ -23,16 +26,15 @@ const log = createLogger(
   console.log
 );
 
-const fs = require('fs');
 if (fs.existsSync('config.json')) {
   log.ok("Config file exists.")
+  var config = require('../config.json') as Record<string, unknown>
 }
 else {
   log.veryBigError("The config file does not exist. Please rename config.example.json to config.json and add your token.")
   process.exit(1)
 }
 
-const { Client, Intents } = require("discord.js");
 const client = new Client({
   intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES]
 });
@@ -40,7 +42,7 @@ const client = new Client({
 client.on("ready", () => {
   log.ok("Welcome to Foxbot")
   log.info("Running version 1.0.0")
-  log.ok("Logged in as "+ client.user.tag)
+  log.ok("Logged in as "+ client.user?.tag)
 });
 
 client.on("messageCreate", (message:any) => {
@@ -64,21 +66,33 @@ process.on('SIGINT', function() {
   process.exit(0);
 });
 
-// Uptime Kuma stuff
-setInterval(function(){
-  const http = require("https");
+// Uptime Kuma. Please remove when selfhosting.
 
-  const options = {
-    "method": "GET",
-    "hostname": "uptime.jontes.page",
-    "path": "/api/push/jhKmrbnqwv?=&status=up&msg=OK&ping=",
-  };
+if (config.uptime_kuma_push_url) {
+  if (typeof config.uptime_kuma_push_url !== 'string') throw new Error('Uptime kuma url is not a string');
   
-  const req = http.request(options, function () {
-    log.debug("Reported uptime to Uptime Kuma")
+  axios({
+    method: 'get',
+    url: config.uptime_kuma_push_url as string,
+  }).then(() => {
+    log.debug('Pinged Uptime Kuma')
   });
-  
-  req.end();
-},600000)
+
+  setInterval(async () => {
+    await axios({
+      method: 'get',
+      url: config.uptime_kuma_push_url as string,
+    });
+    if (config.debug) {
+      log.debug('Pinged Uptime Kuma')
+    }
+  }, 10 * 60 * 1000) // 10 minutes in miliseconds
+} else {
+  log.info('No uptime kuma address')
+}
+
+// End of section to remove for selfhosting.
+
+if (typeof config.discord_token !== 'string') throw new Error('Discord token is not a string');
 
 client.login(config.discord_token);

@@ -1,3 +1,5 @@
 {
-    "discord_token": "ChangeMe"
+    "discord_token": "ChangeMe",
+    "debug": false,
+    "uptime_kuma_push_url": "https://youruptimedomain.com/api/push/<random-string-you-got-from-uptime-kuma?status=up&msg=OK&ping="
 }
