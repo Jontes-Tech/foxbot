@@ -1,12 +1,11 @@
-function getRandomInt(max:number) {
-  return Math.floor(Math.random() * max);
-}
 import { createLogger } from '@lvksh/logger';
-import axios from 'axios';
 import chalk from 'chalk';
 import { Client, Intents } from "discord.js";
 import fs from 'fs';
-
+import axios from 'axios';
+function getRandomInt(max:number) {
+  return Math.floor(Math.random() * max);
+}
 const log = createLogger(
   {
       ok: {
@@ -25,7 +24,6 @@ const log = createLogger(
   { padding: 'PREPEND' },
   console.log
 );
-
 if (fs.existsSync('configuration.json')) {
   log.ok("Configuration file exists.")
   var config = require('../configuration.json') as Record<string, unknown>
@@ -41,7 +39,7 @@ const client = new Client({
 
 client.on("ready", () => {
   log.ok("Welcome to Foxbot")
-  log.info("Running version 1.0.2")
+  log.info("Running version "+require('../package.json').version)
   log.ok("Logged in as "+ client.user?.tag)
 });
 
@@ -65,9 +63,7 @@ process.on('SIGINT', function() {
   client.destroy();
   process.exit(0);
 });
-
-// Uptime Kuma. Please remove when selfhosting.
-
+//
 if (config.uptime_kuma_push_url) {
   if (typeof config.uptime_kuma_push_url !== 'string') throw new Error('Uptime kuma url is not a string');
   
@@ -90,9 +86,7 @@ if (config.uptime_kuma_push_url) {
 } else {
   log.info('No uptime kuma address')
 }
-
-// End of section to remove for selfhosting.
-
+//
 if (typeof config.discord_token !== 'string') throw new Error('Discord token is not a string');
 
 client.login(config.discord_token);
