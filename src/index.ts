@@ -28,7 +28,7 @@ if (fs.existsSync('./configuration.json')) {
   var config = require('../configuration.json')
 }
 else {
-  log.veryBigError("The configuration file does not exist. Please rename config.example.json to config.json and add your token.")
+  log.veryBigError("The configuration file does not exist. Please rename configuration.example.json to configuration.json and add your token.")
   process.exit(1)
 }
 
