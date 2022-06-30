@@ -2,8 +2,8 @@ import { createLogger } from '@lvksh/logger';
 import chalk from 'chalk';
 import { Client, Intents } from "discord.js";
 import fs from 'fs';
-function getRandomInt(max:number) {
-  return Math.floor(Math.random() * max);
+function getRandomInt() {
+  return Math.ceil(Math.random() * (123))
 }
 const log = createLogger(
   {
@@ -45,13 +45,13 @@ client.on("ready", () => {
 client.on("messageCreate", (message:any) => {
   if (message.content == "pic") {
     log.info(message.author.username+"#"+message.author.discriminator+" requested 1 random image.")
-    message.channel.send("https://randomfox.ca/?i="+getRandomInt(123));
+    message.channel.send("https://randomfox.ca/?i="+getRandomInt());
   }
   if (message.content == "picbomb") {
     log.info(message.author.username+"#"+message.author.discriminator+" requested 5 random images.")
-    var stringtosend:string = "https://randomfox.ca/?i="+getRandomInt(123)+"\n"
+    var stringtosend:string = "https://randomfox.ca/?i="+getRandomInt()+"\n"
     for (let i = 0; i < 4; i++) {
-      stringtosend += "https://randomfox.ca/?i="+getRandomInt(123)+"\n";
+      stringtosend += "https://randomfox.ca/?i="+getRandomInt()+"\n";
     }
     message.channel.send(stringtosend);
   }
