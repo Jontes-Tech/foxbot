@@ -38,7 +38,9 @@ const client = new Client({
 
 client.on("ready", () => {
   log.ok("Welcome to Foxbot")
-  log.info("Running version "+require('../package.json').version)
+  if (fs.existsSync('./package.json')) {
+    log.info("Running version "+require('../package.json').version)
+  }
   log.ok("Logged in as "+ client.user?.tag)
 });
 
