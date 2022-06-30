@@ -44,6 +44,12 @@ client.on("ready", () => {
   log.ok("Logged in as "+ client.user?.tag)
 });
 
+client.on("debug", (debug_info) => {
+  if (config.debug) {
+    log.debug(debug_info)
+  }
+})
+
 client.on("messageCreate", (message:any) => {
   if (message.content == "pic") {
     log.info(message.author.username+"#"+message.author.discriminator+" requested 1 random image.")
