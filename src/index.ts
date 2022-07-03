@@ -56,13 +56,6 @@ client.on('messageCreate', async (message) => {
     if (channel.partial) channel = await channel.fetch();
 
     if (content == '$pic') {
-        log.info(
-            `${author.username}#${
-                author.discriminator
-            } requested 1 random image in ${
-                channel instanceof DMChannel ? 'DMs' : guild?.name
-            }`
-        );
         // eslint-disable-next-line sonarjs/no-duplicate-string
         await channel.send('https://randomfox.ca/?i=' + getRandomInt());
 
@@ -70,6 +63,13 @@ client.on('messageCreate', async (message) => {
     }
 
     if (content == '$picbomb') {
+        log.info(
+            `${author.username}#${
+                author.discriminator
+            } requested 5 random images in ${
+                channel instanceof DMChannel ? 'DMs' : guild?.name
+            }`
+        );
         let stringtosend: string =
             'https://randomfox.ca/?i=' + getRandomInt() + '\n';
 
