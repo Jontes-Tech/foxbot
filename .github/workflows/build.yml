@@ -23,7 +23,7 @@ jobs:
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
             type=semver,pattern={{major}}
-            type=edge
+            type=latest
             type=sha
 
       - name: Login to GitHub Container Registry
@@ -62,7 +62,7 @@ jobs:
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
             type=semver,pattern={{major}}
-            type=edge
+            type=latest
             type=sha
 
       - name: Set up QEMU
