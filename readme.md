@@ -2,8 +2,7 @@
 Welcome to Foxbot server.
 To selfhost:
 * Clone project
-* Rename `configuration.example.json` to `configuration.json`.
-* Put your Discord Bot Token in `config.json`
+* Put your Discord Bot Token in the env var `foxbot_discord_token`
 * Run `yarn && yarn run production`
 Voila.
 

@@ -1,3 +1,6 @@
+// Notes:
+// - The debug "bool" is not really a bool, since it's a string. I'm too lazy to fix it.
+
 /* eslint-disable sonarjs/cognitive-complexity */
 import { Client, DMChannel, Intents } from 'discord.js';
 import fs from 'node:fs';
@@ -9,17 +12,17 @@ function getRandomInt() {
     return Math.ceil(Math.random() * 123);
 }
 
-if (!fs.existsSync('./configuration.json')) {
+if (process.env.foxbot_discord_token == undefined) {
     log.error(
-        'The configuration file does not exist. Please rename configuration.example.json to configuration.json and add your token.'
+        'Please specify the env var foxbot_discord_token as your Discord token.'
     );
-
     // eslint-disable-next-line unicorn/no-process-exit
     process.exit(1);
 }
 
-log.ok('Configuration file exists.');
-const config = require('../configuration.json');
+const discord_token: string = process.env.foxbot_discord_token;
+
+log.ok('The correct env vars exist.');
 
 const client = new Client({
     intents: [
@@ -41,7 +44,7 @@ client.on('ready', () => {
 });
 
 client.on('debug', (debug_info) => {
-    if (config.debug) {
+    if (process.env.foxbot_debug == 'true') {
         log.debug(debug_info);
     }
 });
@@ -92,7 +95,7 @@ client.on('messageCreate', async (message) => {
         const result = await deploySlash(
             guild.id,
             client.user.id,
-            config.discord_token
+            discord_token
         );
 
         if (!result) {
@@ -130,7 +133,4 @@ process.on('SIGINT', () => {
     process.exit(0);
 });
 
-if (typeof config.discord_token !== 'string')
-    throw new Error('Discord token is not a string');
-
-client.login(config.discord_token);
+client.login(discord_token);
