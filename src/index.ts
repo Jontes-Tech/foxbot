@@ -55,14 +55,14 @@ client.on('messageCreate', async (message) => {
 
     if (channel.partial) channel = await channel.fetch();
 
-    if (content == '$pic') {
+    if (content.toLowerCase()  == '$pic') {
         // eslint-disable-next-line sonarjs/no-duplicate-string
         await channel.send('https://randomfox.ca/?i=' + getRandomInt());
 
         return;
     }
 
-    if (content == '$picbomb') {
+    if (content.toLowerCase() == '$picbomb') {
         log.info(
             `${author.username}#${
                 author.discriminator
